@@ -1,0 +1,20 @@
+.DS_Store
+.secret
+*.pyc
+*.json
+/stubs
+/database
+/migration
+/venv
+/uploads
+.secret
+venv/
+*.pem
+tools/*data/*
+
+# Runtime data
+frontend-src/pids
+*.pid
+*.seed
+*.pid.lock
+*.db
