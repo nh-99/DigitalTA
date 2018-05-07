@@ -10,7 +10,7 @@ a grade to the homework and the person who uploaded it can see it.
 *NOTE:* You must be running some sort of Unix system to use this software.
 
 Download the source code and install the requirement with `pip install -r requirements.txt`.
-Then, run it with `python app.py`. It will be running at (http://localhost:5000)[http://localhost:5000].
+Then, run it with `python app.py`. It will be running at [http://localhost:5000](http://localhost:5000).
 You can upload homework there and visit the other routes to test the rest of the functionality.
 
 ## Future goals
