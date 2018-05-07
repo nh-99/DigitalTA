@@ -39,6 +39,14 @@ def homework_upload():
     return redirect('/')
 
 
+@app.route('/check', methods=['GET'])
+def create_check():
+    check = HomeworkCheck(stdin=request.args.get('stdin'))
+    models.db.session.add(check)
+    models.db.session.commit()
+    return redirect('/')
+
+
 @app.route('/check/<string:id>')
 def check_homework(id):
     check_id = request.args.get('check')
@@ -46,9 +54,37 @@ def check_homework(id):
     assignment = Assignment.query.filter_by(id=id).first()
 
     # Check the homework against the check
-    bash_cmd = 'echo {} > java -jar {} > test.out 2>&1 &'
-    process = subprocess.Popen(bash_cmd.split(), stdout=subprocess.PIPE)
-    output, error = process.communicate()
+    bash_cmd = 'echo "{}" | java -jar {}'.format(check.stdin, 'uploads/' + assignment.id + '.jar')
+    output = os.popen(bash_cmd).read()
+
+    # Save the output to the assignment
+    assignment.output = output
+    models.db.session.add(assignment)
+    models.db.session.commit()
+
+    return redirect('/grade/' + assignment.id)
+
+
+@app.route('/grade/<string:id>')
+def grade_homework(id):
+    assignment = Assignment.query.filter_by(id=id).first()
+
+    return render_template('grade.html', assignment=assignment)
+
+
+@app.route('/grade/finish', methods=['POST'])
+def finish_grading():
+    id = request.form.get('id')
+    points = request.form.get('points')
+
+    assignment = Assignment.query.filter_by(id=id).first()
+    assignment.graded = True
+    assignment.score = float(points)
+
+    models.db.session.add(assignment)
+    models.db.session.commit()
+
+    return redirect('/')
 
 if __name__ == '__main__':
     models.db.create_all()

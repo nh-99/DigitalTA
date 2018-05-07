@@ -13,6 +13,7 @@ class Assignment(db.Model):
     id = db.Column(db.String(50), primary_key=True)
     name = db.Column(db.String(100))
     time = db.Column(db.DateTime, default=datetime.datetime.utcnow())
+    output = db.Column(db.String(1000))
     graded = db.Column(db.Boolean, default=False)
     score = db.Column(db.Float)
 

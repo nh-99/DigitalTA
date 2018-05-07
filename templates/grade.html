@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block body %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.14.0/themes/prism.css" rel="stylesheet">
+<h1 class="header center">Grade {{ assignment.name }}</h1>
+<div class="row">
+  <div class="col s1 m2"></div>
+  <hr class="col s10 m8" style="color: #757575">
+  <div class="col s1 m2"></div>
+</div>
+
+<div class="container">
+  <h3>Output:</h3>
+  <pre><code class="bash">{{ assignment.output }}</code></pre>
+
+  <br><br>
+  <p><b>Grade:</b></p>
+  <form action="/grade/finish" method="POST" enctype="multipart/form-data">
+    <p>Points</p>
+    <input type="number" name="points">
+    <br><br><br>
+    <input type="hidden" name="id" value="{{ assignment.id }}">
+    <input type="submit">
+  </form>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.14.0/prism.min.js"></script>
+{% endblock %}
